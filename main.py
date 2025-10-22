@@ -13,7 +13,6 @@ def main():
     reports_file = f"{os.getcwd()}/AuditFiles"
     found_files = f"{os.getcwd()}/FoundFiles"
     template = f"{os.getcwd()}/Template/SummaryTemplate.HTML"
-    #
 
     startup.startup()
     fileOperations.clean(found_files, os)
