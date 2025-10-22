@@ -20,11 +20,12 @@ def get_values(report):
                     "Discover (DS)",
                     "Master Card (MC)",
                     "Visa Payment (VI)",
-                    "Room Charge (RM)"
+                    "Room Charge (RM)",
+                    "Total For CREDIT CARDS: "
                     ]
             key_total = len(keys)
             for row in reader:
-                if key_total == 0:
+                if key_total == -2: # -2 for ptd, ytd
                     break
                 if any(row[0].startswith(key) for key in keys):
                     # if not row[4].startswith("(")) then negative?
@@ -47,3 +48,13 @@ def get_values(report):
                     ]
             key_total = len(keys)
             rows = list(reader)
+            headers = rows[0]
+            values = rows[1]
+
+            for idx, header in enumerate(headers):
+                if key_total == 0:
+                    break
+                if header in keys:
+                    ftc_dict[header] = values[idx]
+                    key_total -= 1
+            return ftc_dict
