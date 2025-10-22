@@ -1,3 +1,6 @@
 AuditFiles/
 Template/
 FoundFiles/
+
+__pycache__/
+.gitignore
