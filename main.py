@@ -7,7 +7,7 @@ import fileOperations
 def main():
     found_files = f"{os.getcwd()}/FoundFiles"
     reports_file = f"{os.getcwd()}/AuditFiles"
-
+    a
 
     startup.startup()
     fileOperations.clean(found_files)
