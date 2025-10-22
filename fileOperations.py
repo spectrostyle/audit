@@ -1,6 +1,5 @@
 import csv
 import shutil
-import os
 
 
 # Searches specified file for certain csvs, labels csv accordingly,
@@ -8,8 +7,8 @@ import os
 # Should only search first row, files unchanging positions.
 # TO DO:
 # find transaction report and move (one if statement)
-def find_move(reports_file, found_files):
-    print(reports_file, found_files)
+# setup os date time
+def find_move(reports_file, found_files, os):
     for file in os.listdir(reports_file):
 
             found = False
@@ -25,10 +24,11 @@ def find_move(reports_file, found_files):
                             found = True
                             found_file = "HotelStatistics"
                             break
-                        if entry == "Business Date: 10/19/2025":
+                        if entry == "Business Date: 10/20/2025":
                             found = True
                             found_file = "FTC"
                             break
+                        break
                     print(f"Found {found_file}. Renaming and moving to {found_files}/{found_file}.csv")
                     shutil.copy(f"{reports_file}/{file}", f"{found_files}/{found_file}.csv")
 
@@ -36,9 +36,9 @@ def find_move(reports_file, found_files):
 # If files exist from previous Audit, delete those files with permission
 # TO DO:
 # input handling for yes/no?
-def clean(found_files):
+def clean(found_files, os):
     if os.listdir(found_files):
-        print(f"Found", ",".join(os.listdir(found_files)), "from yesterday")
+        print(f"Found", ", ".join(os.listdir(found_files)), "from yesterday")
 
         print("Deleting...\n")
         for file in os.listdir(found_files):

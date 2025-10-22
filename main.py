@@ -2,7 +2,7 @@ import os
 
 import startup
 import fileOperations
-import hotelStatistics
+import getValues
 
 
 def main():
@@ -10,18 +10,21 @@ def main():
         print("wrong dir")
         os.chdir(f"{os.getcwd()}/python/final/project")
 
-
-    found_files = f"{os.getcwd()}/FoundFiles"
     reports_file = f"{os.getcwd()}/AuditFiles"
+    found_files = f"{os.getcwd()}/FoundFiles"
+
     template = f"{os.getcwd()}/Template/SummaryTemplate.HTML"
 
 
     startup.startup()
-    fileOperations.clean(found_files)
-    fileOperations.find_move(reports_file, found_files)
+    fileOperations.clean(found_files, os)
+    fileOperations.find_move(reports_file, found_files, os)
 
-    hotel_stats = hotelStatistics.one(f"{found_files}/HotelStatistics.csv")
+    for report in os.listdir(found_files):
+        hotel_stats = getValues.get_values(f"{found_files}/{report}")
+
     print(hotel_stats)
+
 
 
 
