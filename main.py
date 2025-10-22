@@ -12,7 +12,6 @@ def main():
 
     reports_file = f"{os.getcwd()}/AuditFiles"
     found_files = f"{os.getcwd()}/FoundFiles"
-
     template = f"{os.getcwd()}/Template/SummaryTemplate.HTML"
 
 
@@ -20,12 +19,11 @@ def main():
     fileOperations.clean(found_files, os)
     fileOperations.find_move(reports_file, found_files, os)
 
+    summary = {}
     for report in os.listdir(found_files):
-        hotel_stats = getValues.get_values(f"{found_files}/{report}")
+        summary.update(getValues.get_values(f"{found_files}/{report}"))
 
-    print(hotel_stats)
-
-
+    print(summary)
 
 
 main()
