@@ -3,16 +3,12 @@ import csv
 # Scans hotel statistic for relevant pairs
 # Returns a dictionary
 # TO DO:
-# make sure proper indexes are grabbed
 # will prob throw error with negative but for now fine
 # Guest refund?
-
 def get_values(report):
-
     with open(report, encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
 
-        # 
         if report.endswith("HotelStatistics.csv"):
             hotel_stats = {}
             keys = ["Cash (CA)",
@@ -26,7 +22,7 @@ def get_values(report):
                     ]
             key_total = len(keys)
             for row in reader:
-                if key_total == -2: # -2 for ptd, ytd
+                if key_total == -2: # -2 for Room Revenue (ptd, ytd)
                     break
                 if any(row[0].startswith(key) for key in keys):
                     # if not row[4].startswith("(")) then negative?
@@ -38,8 +34,7 @@ def get_values(report):
                     key_total -= 1
             return hotel_stats
 
-
-        if report.endswith("FTC.csv"):
+        if report.endswith("FinalTransactionCloseout.csv"):
             ftc_dict = {}
             keys = [f"Occupancy Statistics_STR Occ% of Total Rooms",
                     "Occupancy Statistics_ADR for Total Revenue Rooms",

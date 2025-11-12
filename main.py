@@ -4,26 +4,31 @@ import startup
 import fileOperations
 import getValues
 
-# for transaction report, it is s4's "Transaction Rep (csv)"
+# for HS/FTC, get cA's csv version
+# for transaction report, it is s4's "Transaction Rep (csv)""
+
 
 def main():
     if "main.py" not in os.listdir():
-        print("main not found. \n wrong dir")
+        print("'main.py' not found. \n wrong dir")
         os.chdir(f"{os.getcwd()}/python/final/project")
 
-    reports_file = f"{os.getcwd()}/AuditFiles"
-    found_files = f"{os.getcwd()}/FoundFiles"
-    template = f"{os.getcwd()}/Template/SummaryTemplate.html"
+    AuditFiles = f"{os.getcwd()}/AuditFiles"
+    FoundFiles = f"{os.getcwd()}/FoundFiles"
+    SummaryTemplate = f"{os.getcwd()}/Template/SummaryTemplate.html"
 
     startup.startup()
-    fileOperations.clean(found_files, os)
-    fileOperations.find_move(reports_file, found_files, os)
+    fileOperations.clean(FoundFiles, os)
+    fileOperations.find_move(AuditFiles, FoundFiles, os)
 
     summary = {}
-    for report in os.listdir(found_files):
-        summary.update(getValues.get_values(f"{found_files}/{report}"))
+    for report in os.listdir(FoundFiles):
+        if report == "TransactionReport.csv":
+            pass  # TO DO: transaction report parsing
+        else:
+            summary.update(getValues.get_values(f"{FoundFiles}/{report}"))
 
-    with open(template, 'r', encoding='utf-8-sig') as file:
+    with open(SummaryTemplate, 'r', encoding='utf-8-sig') as file:
         audit_summary = file.read()
 
         empty = 0
