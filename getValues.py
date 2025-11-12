@@ -1,12 +1,12 @@
 import csv
-import decimal
 
 # Scans hotel statistic for relevant pairs
 # Returns a dictionary
 # TO DO:
 # will prob throw error with negative but for now fine
 # Guest refund?
-def get_values(report):
+# clean up redundant code
+def get_values(report, csv):
     with open(report, encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
 
@@ -57,28 +57,31 @@ def get_values(report):
             return ftc_dict
 
 
-def audit(FoundFiles, os):
-    hjs = {}
-    tr = {"AX": 0.0, "DS": 0.0, "MC": 0.0, "VS": 0.0}
-    keys = ["AX", "DS", "MC", "VI"]
+def audit(FoundFiles, csv):
+    hjs = {"AX": 0, "DS": 0, "MC": 0, "VS": 0}
+    tr = {"AX": 0, "DS": 0, "MC": 0, "VS": 0}
 
     with open(f"{FoundFiles}/HotelJournalSummary.csv", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            if any(row[0].startswith(key) for key in keys):
+            if row[0] in hjs:
                 hjs.update({row[0]: float(row[4].strip("()").replace(",",""))})
-
+            if row[0] == "VI":
+                hjs.update({"VS": float(row[4].strip("()").replace(",",""))})
+            
     with open(f"{FoundFiles}/TransactionReport.csv", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            try:
-                key = row[11]
+            try:    
+                if row[11] in tr:
+                    value = float(row[8].replace(",", ""))
+                    tr[row[11]] = round(tr[row[11]] + value, 2)
             except IndexError:
                 continue
-            if key in tr:
-                value = decimal(row[8].replace(",", ""))
-                tr[key] += value
     
-    print(tr)
-    print(hjs)
-    input("")
+    for total in hjs:
+        print(total, ": ", hjs[total], "|", tr[total])
+    
+    if hjs == tr:
+        print("Transaction Report matches Hotel Journal Summary.")
+        input("Press <enter> to continue after running audit and moving files?")

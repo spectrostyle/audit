@@ -1,4 +1,5 @@
 import os
+import csv
 
 import startup
 import fileOperations
@@ -17,15 +18,17 @@ def main():
 
     
     fileOperations.clean(FoundFiles, os)
-    fileOperations.find_move(AuditFiles, FoundFiles, os)
-    getValues.audit(FoundFiles, os)
+    fileOperations.find_move(AuditFiles, FoundFiles, os, csv)
+    getValues.audit(FoundFiles, csv)
+    fileOperations.find_move(AuditFiles, FoundFiles, os, csv)
     
     summary = {}
     for report in os.listdir(FoundFiles):
-        if report == "TransactionReport.csv":
+        if report == "TransactionReport.csv" or report == "HotelJournalSummary.csv":
+            print(report)
             pass  # TO DO: transaction report parsing
         else:
-            summary.update(getValues.get_values(f"{FoundFiles}/{report}"))
+            summary.update(getValues.get_values(f"{FoundFiles}/{report}", csv))
 
     with open(SummaryTemplate, 'r', encoding='utf-8-sig') as file:
         audit_summary = file.read()

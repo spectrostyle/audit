@@ -1,4 +1,3 @@
-import csv
 import shutil
 
 
@@ -30,7 +29,7 @@ def clean(FoundFiles, os):
 # Should only search first row or file name; unchanging positions.
 # TO DO:
 # 
-def find_move(AuditFiles, FoundFiles, os):
+def find_move(AuditFiles, FoundFiles, os, csv):
     print(f"\nScanning {AuditFiles}...\n")
     for file in os.listdir(AuditFiles):
         print(f"Scanning {file}...")
@@ -57,7 +56,7 @@ def find_move(AuditFiles, FoundFiles, os):
 
         if found_file:
             print(f"Found: [{found_file}]. \nMoving to: {FoundFiles}/{found_file.replace(' ', '')}.csv\n")
-            shutil.copy(f"{AuditFiles}/{file}", f"{FoundFiles}/{found_file.replace(' ', '')}.csv")
+            shutil.move(f"{AuditFiles}/{file}", f"{FoundFiles}/{found_file.replace(' ', '')}.csv")
         else:
             print(f"No name found for {file}!\n")
     
