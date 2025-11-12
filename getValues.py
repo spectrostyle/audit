@@ -6,12 +6,13 @@ import csv
 # make sure proper indexes are grabbed
 # will prob throw error with negative but for now fine
 # Guest refund?
+
 def get_values(report):
 
     with open(report, encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile)
 
-
+        # 
         if report.endswith("HotelStatistics.csv"):
             hotel_stats = {}
             keys = ["Cash (CA)",

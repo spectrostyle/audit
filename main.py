@@ -4,16 +4,16 @@ import startup
 import fileOperations
 import getValues
 
+# for transaction report, it is s4's "Transaction Rep (csv)"
 
 def main():
     if "main.py" not in os.listdir():
-        print("wrong dir")
+        print("main not found. \n wrong dir")
         os.chdir(f"{os.getcwd()}/python/final/project")
 
     reports_file = f"{os.getcwd()}/AuditFiles"
     found_files = f"{os.getcwd()}/FoundFiles"
     template = f"{os.getcwd()}/Template/SummaryTemplate.html"
-
 
     startup.startup()
     fileOperations.clean(found_files, os)
@@ -27,8 +27,8 @@ def main():
         audit_summary = file.read()
 
         empty = 0
-        new_summary = audit_summary.replace('Rooms Sold:', f'Rooms Sold: (int({summary["Stay Over Rooms"]}) + int({summary["Day Use Rooms"]}))'
-                                  ).replace('Occupancy: %', f'Occupancy: {summary["Occupancy Statistics_STR Occ% of Total Rooms"]}'
+        new_summary = audit_summary.replace('Rooms Sold:', f'Rooms Sold: {int(summary["Stay Over Rooms"]) + int(summary["Day Use Rooms"])}'
+                                  ).replace('Occupancy: %', f'Occupancy: {summary[f"Occupancy Statistics_STR Occ% of Total Rooms"]}'
                                   ).replace('Out of Order Rooms:', f'Out of Order Rooms: {summary["Room Statistics_Out Of Order"]}'
                                   ).replace('ADR: $', f'ADR: $ {summary["Occupancy Statistics_ADR for Total Revenue Rooms"]}'
                                   ).replace('Room Revenue: $', f'Room Revenue: $ {summary["Room Charge (RM)"]}'
@@ -39,12 +39,12 @@ def main():
                                   ).replace('Guest Refund: $', f'Guest Refund: $ {empty}'
                                   ).replace('Mastercard: $', f'Mastercard: $ {summary["Master Card (MC)"]:.2f}'
                                   ).replace('Visa: $', f'Visa: $ {summary["Visa Payment (VI)"]:.2f}'
-                                  ).replace('Credit Total: $', f'Credit Total: {summary["Total For CREDIT CARDS: "]:.2f}'
+                                  ).replace('Credit Total: $', f'Credit Total: $ {summary["Total For CREDIT CARDS: "]:.2f}'
                                   ).replace('Month to Date: $', f'Month to Date: $ {summary["PTD"]:.2f}'
                                   ).replace('Year to Date: $', f'Year to Date: $ {summary["YTD"]:.2f}')
 
 
-        with open(template, 'w', encoding='utf-8') as file:
+        with open("Audit Summary.html", 'w', encoding='utf-8') as file:
             file.write(new_summary)
             print('Audit Complete.')
 
