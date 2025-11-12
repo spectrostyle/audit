@@ -1,4 +1,5 @@
 import csv
+import decimal
 
 # Scans hotel statistic for relevant pairs
 # Returns a dictionary
@@ -54,3 +55,30 @@ def get_values(report):
                     ftc_dict[header] = values[idx]
                     key_total -= 1
             return ftc_dict
+
+
+def audit(FoundFiles, os):
+    hjs = {}
+    tr = {"AX": 0.0, "DS": 0.0, "MC": 0.0, "VS": 0.0}
+    keys = ["AX", "DS", "MC", "VI"]
+
+    with open(f"{FoundFiles}/HotelJournalSummary.csv", encoding="utf-8-sig") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            if any(row[0].startswith(key) for key in keys):
+                hjs.update({row[0]: float(row[4].strip("()").replace(",",""))})
+
+    with open(f"{FoundFiles}/TransactionReport.csv", encoding="utf-8-sig") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            try:
+                key = row[11]
+            except IndexError:
+                continue
+            if key in tr:
+                value = decimal(row[8].replace(",", ""))
+                tr[key] += value
+    
+    print(tr)
+    print(hjs)
+    input("")

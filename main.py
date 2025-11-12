@@ -5,12 +5,12 @@ import fileOperations
 import getValues
 
 # for HS/FTC, get cA's csv version
-# for transaction report, it is s4's "Transaction Rep (csv)""
+# for transaction report, it is s4's "Basic Batch Rep (csv)""
 
 
 def main():
     startup.startup(os)
-    
+
     AuditFiles = f"{os.getcwd()}/AuditFiles"
     FoundFiles = f"{os.getcwd()}/FoundFiles"
     SummaryTemplate = f"{os.getcwd()}/Template/SummaryTemplate.html"
@@ -18,7 +18,8 @@ def main():
     
     fileOperations.clean(FoundFiles, os)
     fileOperations.find_move(AuditFiles, FoundFiles, os)
-
+    getValues.audit(FoundFiles, os)
+    
     summary = {}
     for report in os.listdir(FoundFiles):
         if report == "TransactionReport.csv":
