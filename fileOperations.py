@@ -49,6 +49,8 @@ def find_move(AuditFiles, FoundFiles, os):
                             found_file = "Hotel Statistics"
                         if entry.startswith("Business Date: "):
                             found_file = "Final Transaction Closeout"
+                        if entry.startswith("Transaction Code"):
+                            found_file = "Hotel Journal Summary"
 
                         break
                     break
@@ -57,6 +59,6 @@ def find_move(AuditFiles, FoundFiles, os):
             print(f"Found: [{found_file}]. \nMoving to: {FoundFiles}/{found_file.replace(' ', '')}.csv\n")
             shutil.copy(f"{AuditFiles}/{file}", f"{FoundFiles}/{found_file.replace(' ', '')}.csv")
         else:
-            print(f"No name found for {file}!")
+            print(f"No name found for {file}!\n")
     
     input("Moving files complete. Press <enter> to continue.\n")

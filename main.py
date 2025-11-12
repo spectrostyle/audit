@@ -9,15 +9,13 @@ import getValues
 
 
 def main():
-    if "main.py" not in os.listdir():
-        print("'main.py' not found. \n wrong dir")
-        os.chdir(f"{os.getcwd()}/python/final/project")
-
+    startup.startup(os)
+    
     AuditFiles = f"{os.getcwd()}/AuditFiles"
     FoundFiles = f"{os.getcwd()}/FoundFiles"
     SummaryTemplate = f"{os.getcwd()}/Template/SummaryTemplate.html"
 
-    startup.startup()
+    
     fileOperations.clean(FoundFiles, os)
     fileOperations.find_move(AuditFiles, FoundFiles, os)
 
