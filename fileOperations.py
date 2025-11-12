@@ -2,8 +2,6 @@ import shutil
 
 
 # If files exist from previous Audit, delete those files with permission
-# TO DO:
-# 
 def clean(FoundFiles, os):
     print(f"\nChecking for yesterday's Audit in {FoundFiles}...")
 
@@ -24,11 +22,7 @@ def clean(FoundFiles, os):
     input(f"\n{FoundFiles} is clean. Press <enter> to continue.\n")
 
 
-# Searches AuditFiles folder for certain csvs, labels csv accordingly
-# Copies csv to FoundFiles folder for processing.
-# Should only search first row or file name; unchanging positions.
-# TO DO:
-# 
+# Searches AuditFiles first row, copies matching files to FoundFiles.
 def find_move(AuditFiles, FoundFiles, os, csv):
     print(f"\nScanning {AuditFiles}...\n")
     for file in os.listdir(AuditFiles):
@@ -50,7 +44,6 @@ def find_move(AuditFiles, FoundFiles, os, csv):
                             found_file = "Final Transaction Closeout"
                         if entry.startswith("Transaction Code"):
                             found_file = "Hotel Journal Summary"
-
                         break
                     break
 

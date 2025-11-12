@@ -1,5 +1,3 @@
-import csv
-
 # Scans hotel statistic for relevant pairs
 # Returns a dictionary
 # TO DO:
@@ -57,6 +55,7 @@ def get_values(report, csv):
             return ftc_dict
 
 
+# Audits Transaction Report against Hotel Journal Summary
 def audit(FoundFiles, csv):
     hjs = {"AX": 0, "DS": 0, "MC": 0, "VS": 0}
     tr = {"AX": 0, "DS": 0, "MC": 0, "VS": 0}
@@ -83,5 +82,5 @@ def audit(FoundFiles, csv):
         print(total, ": ", hjs[total], "|", tr[total])
     
     if hjs == tr:
-        print("Transaction Report matches Hotel Journal Summary.")
+        print("\nTransaction Report matches Hotel Journal Summary.")
         input("Press <enter> to continue after running audit and moving files?")

@@ -5,28 +5,26 @@ import startup
 import fileOperations
 import getValues
 
-# for HS/FTC, get cA's csv version
-# for transaction report, it is s4's "Basic Batch Rep (csv)""
-
 
 def main():
+    # for transaction report, it is s4's "Basic Batch Rep (csv)""
+    
     startup.startup(os)
 
     AuditFiles = f"{os.getcwd()}/AuditFiles"
     FoundFiles = f"{os.getcwd()}/FoundFiles"
     SummaryTemplate = f"{os.getcwd()}/Template/SummaryTemplate.html"
 
-    
     fileOperations.clean(FoundFiles, os)
     fileOperations.find_move(AuditFiles, FoundFiles, os, csv)
     getValues.audit(FoundFiles, csv)
-    fileOperations.find_move(AuditFiles, FoundFiles, os, csv)
+    # remove comment when running audit for now.
+    #fileOperations.find_move(AuditFiles, FoundFiles, os, csv)
     
     summary = {}
     for report in os.listdir(FoundFiles):
         if report == "TransactionReport.csv" or report == "HotelJournalSummary.csv":
-            print(report)
-            pass  # TO DO: transaction report parsing
+            pass
         else:
             summary.update(getValues.get_values(f"{FoundFiles}/{report}", csv))
 
@@ -54,6 +52,7 @@ def main():
         with open("Audit Summary.html", 'w', encoding='utf-8') as file:
             file.write(new_summary)
             print('Audit Complete.')
+            print('Audit Summary.html created.')
 
 
 main()
